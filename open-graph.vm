@@ -47,6 +47,23 @@
          #end
       #end
    #end
+   
+   ## Try finding a large enough image on the page first.
+   #if ($imageUrl == '')
+      #set ($images = $nodeTreeUtil.findPortletsByType( $currentPage,'image'))
+      #foreach ($image in $images)
+         #set ($imageNode = $propertyUtil.getNode($image, 'image') )
+         #if ($imageNode)
+            #set ($imageWidth = $propertyUtil.getInt($imageNode, 'width', 0))
+            #set ($imageHeight = $propertyUtil.getInt($imageNode, 'height', 0))
+
+            #if ($imageWidth >= 200 && $imageHeight >= 200)
+               #set ($imageUrl = $propertyUtil.getString($imageNode, 'URL', ''))
+               #break
+            #end
+         #end
+      #end
+	#end 
 
    #if ($imageUrl == '')
       #if ($imageFallbackUrl != '')
